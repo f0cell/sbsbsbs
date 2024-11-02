@@ -45,7 +45,9 @@ local function teleportAboveNoteThenToKeyPad()
         task.wait(5)
         local keyPad = workspace:FindFirstChild("Key Pad")
         if keyPad then
-            Character:SetPrimaryPartCFrame(keyPad.CFrame)
+             local player = game.Players.LocalPlayer.Character
+local part = game.Workspace["Key Pad"] 
+player.HumanoidRootPart.CFrame = part.CFrame
         else
             warn("Key Pad not found in workspace.")
         end
@@ -89,7 +91,7 @@ end
 local function grabPocketWatch()
     local pocketWatch = workspace:FindFirstChild("PocketWatch")
     if pocketWatch then
-        Character.HumanoidRootPart.CFrame = pocketWatch.CFrame
+        Character.HumanoidRootPart.CFrame = pocketWatch.CFrame.Value
         local clickDetector = pocketWatch:FindFirstChildOfClass("ClickDetector")
         if clickDetector then
             fireclickdetector(clickDetector)
@@ -125,7 +127,7 @@ local function highlightBasketballsWithClickDetector()
     local basketballsFolder = workspace:FindFirstChild("Furniture") and workspace.Furniture:FindFirstChild("jorgisBasketballs")
     if basketballsFolder then
         for _, basketball in pairs(basketballsFolder:GetChildren()) do
-            if basketball:IsA("BasePart") and basketball.Name == "B-Balls" then
+            if basketball:IsA("BasePart") and basketball.Name == "B-Ball" then
                 local clickDetector = basketball:FindFirstChildOfClass("ClickDetector")
                 if clickDetector then
                     local highlight = Instance.new("Highlight")
