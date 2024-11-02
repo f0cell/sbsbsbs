@@ -1,8 +1,21 @@
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+
+local Window = Rayfield:CreateWindow({
+    Name = "Script by @decryp1 on YouTube",
+    LoadingTitle = "Loading Script...",
+    LoadingSubtitle = "Created by @decryp1",
+    ConfigurationSaving = {
+        Enabled = false,
+        FolderName = nil,
+        FileName = "ClockBadgeUI"
+    }
+})
+
 local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
 local Character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
-local Toggle = false
 local RunService = game:GetService("RunService")
+local Toggle = false
 local HeartbeatConnection
 
 local function startTeleportLoop()
@@ -30,7 +43,7 @@ local function teleportAboveNoteThenToKeyPad()
             warn("ClickDetector not found in Note.")
         end
         task.wait(5)
-        local keyPad = workspace["Key Pad"]
+        local keyPad = workspace:FindFirstChild("Key Pad")
         if keyPad then
             Character:SetPrimaryPartCFrame(keyPad.CFrame)
         else
@@ -73,7 +86,6 @@ local function deleteLandmines()
     end
 end
 
-
 local function grabPocketWatch()
     local pocketWatch = workspace:FindFirstChild("PocketWatch")
     if pocketWatch then
@@ -113,7 +125,7 @@ local function highlightBasketballsWithClickDetector()
     local basketballsFolder = workspace:FindFirstChild("Furniture") and workspace.Furniture:FindFirstChild("jorgisBasketballs")
     if basketballsFolder then
         for _, basketball in pairs(basketballsFolder:GetChildren()) do
-            if basketball:IsA("BasePart") and basketball.Name == "B-Ball" then
+            if basketball:IsA("BasePart") and basketball.Name == "B-Balls" then
                 local clickDetector = basketball:FindFirstChildOfClass("ClickDetector")
                 if clickDetector then
                     local highlight = Instance.new("Highlight")
@@ -129,53 +141,79 @@ local function highlightBasketballsWithClickDetector()
     end
 end
 
-local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
-local Window = Library.CreateLib("Clock Badge Script by @decryp1", "DarkTheme")
-local MainTab = Window:NewTab("Main")
-local ExtraTab = Window:NewTab("Extra")
-local ExtraSection = ExtraTab:NewSection("funny")
-local MainSection = MainTab:NewSection("Clock Badge Teleport")
+local MainTab = Window:CreateTab("Main", 4483362458)
+local ExtraTab = Window:CreateTab("Extra", 4483362458)
+local CreditsTab = Window:CreateTab("Credits", 4483362458)
 
-MainSection:NewButton("Teleport to barzil", "tp's to barzil", function()
-    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.workspace.Lobby.brazil.portal.CFrame
-end)
-
-MainSection:NewToggle("Teleport to top of clock tower", "Teleports 9 studs below the target part and enables noclip", function(state)
-    Toggle = state
-    if Toggle then
-        startTeleportLoop()
-    else
-        stopTeleportLoop()
+MainTab:CreateButton({
+    Name = "Teleport to Brazil",
+    Callback = function()
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.workspace.Lobby.brazil.portal.CFrame
     end
-end)
+})
 
-MainSection:NewButton("Click Note", "Teleports above Note, clicks, then teleports to KeyPad after 3 seconds", function()
-    teleportAboveNoteThenToKeyPad()
-end)
+MainTab:CreateToggle({
+    Name = "Teleport to top of clock tower",
+    CurrentValue = false,
+    Callback = function(state)
+        Toggle = state
+        if Toggle then
+            startTeleportLoop()
+        else
+            stopTeleportLoop()
+        end
+    end
+})
 
-MainSection:NewButton("Start Generator", "Teleports above Generator and holds ProximityPrompt for 30 seconds", function()
-    teleportAboveGenerator()
-    task.wait(1)
-    holdProximityPrompt()
-end)
+MainTab:CreateButton({
+    Name = "Click Note",
+    Callback = function()
+        teleportAboveNoteThenToKeyPad()
+    end
+})
 
-MainSection:NewButton("Delete All Landmines", "Removes all parts in workspace.Landmines", function()
-    deleteLandmines()
-end)
+MainTab:CreateButton({
+    Name = "Start Generator",
+    Callback = function()
+        teleportAboveGenerator()
+        task.wait(1)
+        holdProximityPrompt()
+    end
+})
 
+MainTab:CreateButton({
+    Name = "Delete All Landmines",
+    Callback = function()
+        deleteLandmines()
+    end
+})
 
-MainSection:NewButton("Grab Pocketwatch", "Teleports to PocketWatch and fires ClickDetector", function()
-    grabPocketWatch()
-end)
+MainTab:CreateButton({
+    Name = "Grab Pocketwatch",
+    Callback = function()
+        grabPocketWatch()
+    end
+})
 
-MainSection:NewButton("Show Correct Drawer", "Adds ESP to Drawers with Handles in parentsDresser", function()
-    highlightDrawersWithHandle()
-end)
+MainTab:CreateButton({
+    Name = "Show Correct Drawer",
+    Callback = function()
+        highlightDrawersWithHandle()
+    end
+})
 
-MainSection:NewButton("Show Correct Basketball", "Adds ESP to B-Balls with ClickDetector in jorgisBasketballs", function()
-    highlightBasketballsWithClickDetector()
-end)
+MainTab:CreateButton({
+    Name = "Show Correct Basketball",
+    Callback = function()
+        highlightBasketballsWithClickDetector()
+    end
+})
 
-ExtraSection:NewButton("Infinite Yield", "admin commands", function()
-    loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
-end)
+ExtraTab:CreateButton({
+    Name = "Infinite Yield (admin commands)",
+    Callback = function()
+        loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
+    end
+})
+
+CreditsTab:CreateSection("Script by @decryp1 on YouTube")
